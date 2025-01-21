@@ -1,0 +1,57 @@
+Özet & Nasıl Kullanılmalı
+=============================================
+Kullanıcıların izlediği filmlere göre yeni film önerileri yapan algoritmalar:
+
+İlk 4 öneri :
+gcc oneri1.c -o oneri1
+./oneri1
+
+(u.data kullanarak interactions.txt oluşturur)
+
+5. Öneri (kendi geliştirdiğim)ve ekstra olarak rassal yürüyüş mesafesi hesabı yapan algoritmalar:
+gcc oneri2.c -o oneri2
+./oneri2
+
+u.data ve u.item kullanılıyor
+
+C dilinde yazılmış bir koddur.
+
+Kod çalıştırıldıktan sonra hangi kullanıcı için öneri istediğinizi ve kaç tane öneri istediğinizi sorar ona göre istenen sayı kadar öneri sunar.
+
+1. Öneri: Rastgele olarak izlenmeyen filmlerden öneri yapar.
+
+2. Öneri: En yüksek dereceli filmleri tutar ve onlardan kullanıcının izlemediklerini önerir.
+
+3. Öneri: Kullanıcıya en benzer kullanıcıyı bulur ve onun izleyip 5 puan verdiği filmler arasından öneri yapar.
+
+4. Öneri kullanıcı ile film arası uzaklık: 1/rating istenen kullanıcıya en yakın uzaklıktaki filmlerden öneri yapar. 
+Biraz açıklamak gerekirse 1/rating en küçük olanlar 5 puan verilen filmler. 
+Kullanıcının 5 puan verdiği filme gider sonra o filme 5 puan veren kullanıcıya gider sonra yine o kullanıcının 5 puan verdiği filmlere gider. Bu şekilde toplamda 0.60 uzaklıktaki (1/5 + 1/5 + 1/5) bir sürü film bulunur o yüzden bu filmler arasından rastgele seçer. 
+Yani en yakın uzaklıktaki filmlerden seçmiş olur. Eğer 5 puan verilen hiç yoksa 4 puan verilene gider.
+
+5. Öneri: Benim geliştirdiğim öneri yöntemi. u.genre dosyasında unkown dahil 19 tane tür var. Ben bu dosyayı tekrar kullanmamak için türleri kendi koduma yazdım.(array içinde depoladım yani)
+u.data ve u.item kullanıldı. U.data hangi kullanıcının hangi filme kaç puan verdiğini saklar. U.item ise filmlerin tür bilgisini tutar.
+Kodumda istenen kullanıcının izlediği tüm filmlere bakılıyor ve hangi tür filmi en çok izlediği bulunuyor. Bu bulunduktan sonra gidip o türün en yüksek puan verilen filmleri öneriliyor (bunlar içinden tabii ki kullanıcının izledikleri çıkarılıyor kullanıcının izlemediği en yüksek puan alan filmler öneriliyor)
+Filmlerin ortalama puanını imbd gibi düşündüm. O filme verilen bütün puanları tıpladım ve bu toplamı o filme puan veren kişi sayısına böldüm. 
+Rassal Yürüyüş Mesafesi Hesabı Yaptım
+
+
+u.data     -- The full u data set, 100000 ratings by 943 users on 1682 items.
+              Each user has rated at least 20 movies.  Users and items are
+              numbered consecutively from 1.  The data is randomly
+              ordered. This is a tab separated list of 
+	         user id | item id | rating | timestamp. 
+              The time stamps are unix seconds since 1/1/1970 UTC  
+
+u.item     -- Information about the items (movies); this is a tab separated
+              list of
+              movie id | movie title | release date | video release date |
+              IMDb URL | unknown | Action | Adventure | Animation |
+              Childrens | Comedy | Crime | Documentary | Drama | Fantasy |
+              Film-Noir | Horror | Musical | Mystery | Romance | Sci-Fi |
+              Thriller | War | Western |
+              The last 19 fields are the genres, a 1 indicates the movie
+              is of that genre, a 0 indicates it is not; movies can be in
+              several genres at once.
+              The movie ids are the ones used in the u.data data set.
+
